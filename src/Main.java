@@ -1,21 +1,50 @@
+import java.util.Scanner;
+
 public class Main {
     public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        SalaDeCinema sala = new SalaDeCinema(1, 25);
 
-        Filme filme = new Filme("Harry Potter", "Fantasia", 180);
+        while (true) {
+            System.out.println("\nMenu:");
+            System.out.println("1 - Cadastrar Filme");
+            System.out.println("2 - Listar Filmes");
+            System.out.println("0 - Sair");
+            System.out.print("Escolha uma opção: ");
 
-        SalaDeCinema sala = new SalaDeCinema(1, 25, filme);
+            int opcao = scanner.nextInt();
+            scanner.nextLine();
 
-        Ingresso ingresso1 = new Ingresso("Inteira", "A1", sala);
-        Ingresso ingresso2 = new Ingresso("Meia", "B2", sala);
+            if (opcao == 1) {
+                cadastrarFilme(scanner);
+            } else if (opcao == 2) {
+                Filme.listarFilmes();
+            } else if (opcao == 0) {
+                System.out.println("Saindo...");
+                scanner.close();
+                break;
+            } else {
+                System.out.println("Opção inválida. Tente novamente.");
+            }
+        }
+    }
 
-        Cliente cliente1 = new Cliente("Joniel Mendes", "123.456.789-00", "Rua dos Programadores, 123", ingresso1);
-        Cliente cliente2 = new Cliente("Patrícia", "987.654.321-00", "Rua B, 456", ingresso2);
+    private static void cadastrarFilme(Scanner scanner) {
+        System.out.println("Digite o título do filme:");
+        String titulo = scanner.nextLine();
 
-        sala.adicionarCliente(cliente1);
-        sala.adicionarCliente(cliente2);
+        System.out.println("Digite o gênero do filme:");
+        String genero = scanner.nextLine();
 
-        sala.listarClientes();
+        System.out.println("Digite a duração do filme (em minutos):");
+        while (!scanner.hasNextInt()) {
+            System.out.println("Duração inválida. Digite um número inteiro.");
+            scanner.next();
+        }
+        int duracao = scanner.nextInt();
+        scanner.nextLine();  // Consumir a nova linha
+
+        Filme filme = new Filme(titulo, genero, duracao);
+        Filme.cadastrarFilme(filme);
     }
 }
-
-
